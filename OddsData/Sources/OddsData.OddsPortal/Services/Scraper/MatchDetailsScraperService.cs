@@ -120,15 +120,15 @@ namespace OddsData.OddsPortal.Services.Scraper
 
                 return new MatchResultModel
                 {
-                    FullTime = (SingleBetResult)string.Compare(fullTimeResultScoresString[0], fullTimeResultScoresString[1], StringComparison.CurrentCulture),
-                    FirstHalf = (SingleBetResult)string.Compare(firstHalfResultScoresString[0], firstHalfResultScoresString[1], StringComparison.CurrentCulture),
-                    SecondHalf = (SingleBetResult)string.Compare(secondHalfResultScoresString[0], secondHalfResultScoresString[1], StringComparison.CurrentCulture)
+                    FullTime = (SingleBetResult)fullTimeResultScoresString[0].CompareTo(fullTimeResultScoresString[1]),
+                    FirstHalf = (SingleBetResult)firstHalfResultScoresString[0].CompareTo(firstHalfResultScoresString[1]),
+                    SecondHalf = (SingleBetResult)secondHalfResultScoresString[0].CompareTo(secondHalfResultScoresString[1])
                 };
             }
 
             return new MatchResultModel
             {
-                FullTime = (SingleBetResult)string.Compare(fullTimeResultScoresString[0], fullTimeResultScoresString[1], StringComparison.Ordinal),
+                FullTime = (SingleBetResult)fullTimeResultScoresString[0].CompareTo(fullTimeResultScoresString[1]),
                 FirstHalf = SingleBetResult.Unknown,
                 SecondHalf = SingleBetResult.Unknown
             };
