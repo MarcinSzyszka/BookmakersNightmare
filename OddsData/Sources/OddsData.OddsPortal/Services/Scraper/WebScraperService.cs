@@ -60,8 +60,7 @@ namespace OddsData.OddsPortal.Services.Scraper
                 throw new ArgumentNullException("There is no data for the latest season");
             }
 
-            var bets = await GetDetailsFromRows(url, resultsRows);
-            return bets;
+            return await GetDetailsFromRows(url, resultsRows);
         }
 
         private static HtmlDocument GetHtmlDoc(string countryLeagueResultsUrl)
@@ -87,30 +86,17 @@ namespace OddsData.OddsPortal.Services.Scraper
 
         private async Task<IEnumerable<MatchBet>> GetDetailsFromRows(string url, List<HtmlNode> resultsRows)
         {
-            System.Diagnostics.Debug.WriteLine($"Found {resultsRows} matches on single page. Download match odds and details is starting...");
+            var tasks = new List<Task<MatchBet>>();
+            //var result = new List<MatchBet>();
 
-            var result = new List<MatchBet>();
-
-            var i = 1;
             foreach (var row in resultsRows)
             {
-                System.Diagnostics.Debug.WriteLine($"Match {i} from {resultsRows}");
-
                 var matchDetailsUrl = row.ChildNodes.First(n => n.HasClass("table-participant")).ChildNodes.First().GetAttributeValue("href", null);
 
-                try
-                {
-                    result.Add(await _matchDetailsScrapper.GetMatchBetDetails($"{url}{matchDetailsUrl}"));
-                }
-                catch (Exception e)
-                {
-                    System.Diagnostics.Debug.WriteLine(e.Message);
-                }
-
-                i++;
+                tasks.Add(_matchDetailsScrapper.GetMatchBetDetails($"{url}{matchDetailsUrl}"));
             }
 
-            return result;
+            return await Task.WhenAll(tasks.ToArray());
         }
     }
 }
