@@ -113,16 +113,16 @@ namespace OddsData.OddsPortal.Services.Scraper
 
             var fullTimeResultScoresString = match.Groups[1].Value.Split(':');
 
-            if (match.Groups.Count > 2)
+            if (match.Groups[2].Success)
             {
-                var firstHalfResultScoresString = match.Groups[2].Value.Split(':');
-                var secondHalfResultScoresString = match.Groups[3].Value.Split(':');
+                var firstHalfResultScoresString = match.Groups[3].Value.Split(':');
+                var secondHalfResultScoresString = match.Groups[4].Value.Split(':');
 
                 return new MatchResultModel
                 {
-                    FullTime = (SingleBetResult)string.Compare(fullTimeResultScoresString[0], fullTimeResultScoresString[1], StringComparison.Ordinal),
-                    FirstHalf = (SingleBetResult)string.Compare(firstHalfResultScoresString[0], firstHalfResultScoresString[1], StringComparison.Ordinal),
-                    SecondHalf = (SingleBetResult)string.Compare(secondHalfResultScoresString[0], secondHalfResultScoresString[1], StringComparison.Ordinal)
+                    FullTime = (SingleBetResult)string.Compare(fullTimeResultScoresString[0], fullTimeResultScoresString[1], StringComparison.CurrentCulture),
+                    FirstHalf = (SingleBetResult)string.Compare(firstHalfResultScoresString[0], firstHalfResultScoresString[1], StringComparison.CurrentCulture),
+                    SecondHalf = (SingleBetResult)string.Compare(secondHalfResultScoresString[0], secondHalfResultScoresString[1], StringComparison.CurrentCulture)
                 };
             }
 

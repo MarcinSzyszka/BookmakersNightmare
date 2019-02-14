@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Threading.Tasks;
 using Moq;
+using Newtonsoft.Json;
 using OddsData.Infrastructure.Enums;
 using OddsData.Infrastructure.Models;
 using OddsData.OddsPortal.Services.Scraper;
@@ -25,6 +27,13 @@ namespace OddsData.OddsPortal.Tests
 
             //Assert
             Assert.NotNull(result);
+
+            var serializedObject = JsonConvert.SerializeObject(result);
+
+            using (var sw = new StreamWriter(@"oddsResults.json", false))
+            {
+                await sw.WriteAsync(serializedObject);
+            }
         }
 
         #region CONFIGURATION
