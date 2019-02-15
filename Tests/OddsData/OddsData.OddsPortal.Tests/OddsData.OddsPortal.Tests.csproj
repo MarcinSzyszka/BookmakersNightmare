@@ -15,8 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Infrastructure\OddsData.Infrastructure\OddsData.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\Sources\OddsData.OddsPortal\OddsData.OddsPortal.csproj" />
+    <ProjectReference Include="..\..\..\OddsData\Infrastructure\OddsData.Infrastructure\OddsData.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\OddsData\Sources\OddsData.OddsPortal\OddsData.OddsPortal.csproj" />
   </ItemGroup>
 
   <ItemGroup>

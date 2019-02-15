@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Main.Infrastructure\Main.Infrastructure.csproj" />
+    <ProjectReference Include="..\OddsData\OddsData.Source\OddsData.Source.csproj" />
+    <ProjectReference Include="..\Repository\DataRepository\DataRepository.csproj" />
+  </ItemGroup>
+
+</Project>

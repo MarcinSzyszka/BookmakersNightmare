@@ -1,14 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Threading.Tasks;
-using OddsData.Infrastructure.Enums;
+using Main.Infrastructure.Enums;
 using OddsData.Infrastructure.Models;
 using OddsData.Infrastructure.Services;
 using OddsData.OddsPortal.Services.Scraper;
 
 namespace OddsData.OddsPortal.Services
 {
-    internal class OddsPortalOddsDataService : IOddsDataService
+    public class OddsPortalOddsDataService : IOddsDataService
     {
         private readonly IWebScraperService _webScraper;
 
@@ -17,7 +18,7 @@ namespace OddsData.OddsPortal.Services
             _webScraper = webScraper;
         }
 
-        public Task<IEnumerable<MatchBet>> GetResults(Country country, string leagueName)
+        public Task<IEnumerable<MatchBet>> GetResults(Country country, string leagueName, DateTime? fromDate)
         {
             var url = ConfigurationManager.AppSettings["OddsPortalUrl"];
 
@@ -29,7 +30,7 @@ namespace OddsData.OddsPortal.Services
 
             using (_webScraper)
             {
-                return _webScraper.GetMatchBetsWithResultsInLatestSeason(url, countryLeague);
+                return _webScraper.GetMatchBetsWithResultsInLatestSeason(url, countryLeague, fromDate);
             }
         }
     }

@@ -1,4 +1,6 @@
-﻿namespace OddsData.Infrastructure.Models
+﻿using Main.Infrastructure.Enums;
+
+namespace OddsData.Infrastructure.Models
 {
     public class MatchResultModel
     {

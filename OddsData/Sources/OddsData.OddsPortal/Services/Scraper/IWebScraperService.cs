@@ -7,6 +7,6 @@ namespace OddsData.OddsPortal.Services.Scraper
 {
     public interface IWebScraperService : IDisposable
     {
-        Task<IEnumerable<MatchBet>> GetMatchBetsWithResultsInLatestSeason(string baseUrl, CountryLeague countryLeague);
+        Task<IEnumerable<MatchBet>> GetMatchBetsWithResultsInLatestSeason(string baseUrl, CountryLeague countryLeague, DateTime? fromDate);
     }
 }

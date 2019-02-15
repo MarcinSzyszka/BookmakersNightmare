@@ -1,4 +1,4 @@
-﻿using OddsData.Infrastructure.Enums;
+﻿using Main.Infrastructure.Enums;
 
 namespace OddsData.Infrastructure.Models
 {

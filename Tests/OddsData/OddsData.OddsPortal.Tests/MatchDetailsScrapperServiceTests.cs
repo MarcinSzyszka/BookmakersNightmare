@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Main.Infrastructure.Enums;
 using OddsData.Infrastructure.Models;
 using OddsData.OddsPortal.Services.Scraper;
 using OpenQA.Selenium.Chrome;
@@ -20,7 +21,7 @@ namespace OddsData.OddsPortal.Tests
             //Act
             using (var driver = new ChromeDriver(AppDomain.CurrentDomain.BaseDirectory))
             {
-                result = await _serviceUnderTest.GetMatchBetDetails(driver, matchDetailsUrl);
+                result = await _serviceUnderTest.GetMatchBetDetails(driver, matchDetailsUrl, null);
             }
 
             //Assert

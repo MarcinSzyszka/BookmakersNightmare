@@ -13,18 +13,20 @@ namespace OddsData.OddsPortal.Services.Scraper
         private readonly IMatchDetailsScraperService _matchDetailsScrapper;
         private string _countryLeagueResultsUrl;
         private string _baseUrl;
-        private readonly ChromeDriver _driver;
+        private ChromeDriver _driver;
+        private DateTime? _fromDate;
 
         public WebScraperService(IMatchDetailsScraperService matchDetailsScrapper)
         {
             _matchDetailsScrapper = matchDetailsScrapper;
-            _driver = new ChromeDriver(AppDomain.CurrentDomain.BaseDirectory);
         }
 
-        public async Task<IEnumerable<MatchBet>> GetMatchBetsWithResultsInLatestSeason(string baseUrl, CountryLeague countryLeague)
+        public async Task<IEnumerable<MatchBet>> GetMatchBetsWithResultsInLatestSeason(string baseUrl, CountryLeague countryLeague, DateTime? fromDate)
         {
+            InitWebDriver();
             _baseUrl = baseUrl;
             _countryLeagueResultsUrl = $"{baseUrl}/soccer/{countryLeague.Country}/{countryLeague.League}/results/".ToLower();
+            _fromDate = fromDate;
 
             var pagesCount = GetResultsPagesCount();
 
@@ -105,11 +107,18 @@ namespace OddsData.OddsPortal.Services.Scraper
                 {
                     var matchDetailsUrl = row.ChildNodes.First(n => n.HasClass("table-participant")).ChildNodes.First().GetAttributeValue("href", null);
 
-                    result.Add(await _matchDetailsScrapper.GetMatchBetDetails(webDriver, $"{_baseUrl}{matchDetailsUrl}"));
+                    var matchDetails = await _matchDetailsScrapper.GetMatchBetDetails(webDriver, $"{_baseUrl}{matchDetailsUrl}", _fromDate);
+                    
+                    if (matchDetails == null)
+                    {
+                        break;
+                    }
+
+                    result.Add(matchDetails);
                 }
             }
 
-            return result;
+            return result.Where(r => r != null);
         }
 
         private HtmlDocument GetHtmlDoc(string url)
@@ -120,6 +129,11 @@ namespace OddsData.OddsPortal.Services.Scraper
             htmlDoc.LoadHtml(_driver.PageSource);
 
             return htmlDoc;
+        }
+
+        private void InitWebDriver()
+        {
+            _driver = new ChromeDriver(AppDomain.CurrentDomain.BaseDirectory);
         }
 
         public void Dispose()

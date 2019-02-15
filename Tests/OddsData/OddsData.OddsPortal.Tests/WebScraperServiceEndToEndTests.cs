@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Main.Infrastructure.Enums;
 using Newtonsoft.Json;
-using OddsData.Infrastructure.Enums;
 using OddsData.Infrastructure.Models;
 using OddsData.OddsPortal.Services.Scraper;
 using Xunit;
@@ -18,8 +18,8 @@ namespace OddsData.OddsPortal.Tests
             var leagueUrl = @"https://www.oddsportal.com";
             var countryLeague = new CountryLeague
             {
-                Country = Country.Qatar,
-                League = "Division-2"
+                Country = Country.Gambia,
+                League = "gfa-league"
             };
 
             var result = default(IEnumerable<MatchBet>);
@@ -27,7 +27,7 @@ namespace OddsData.OddsPortal.Tests
             //Act
             using (_serviceUnderTest)
             {
-                result = await _serviceUnderTest.GetMatchBetsWithResultsInLatestSeason(leagueUrl, countryLeague);
+                result = await _serviceUnderTest.GetMatchBetsWithResultsInLatestSeason(leagueUrl, countryLeague, null);
             }
 
             //Assert

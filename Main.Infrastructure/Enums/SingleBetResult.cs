@@ -1,4 +1,4 @@
-﻿namespace OddsData.Infrastructure.Models
+﻿namespace Main.Infrastructure.Enums
 {
     public enum SingleBetResult
     {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Main.Infrastructure.Enums;
 
 namespace OddsData.Infrastructure.Models
 {

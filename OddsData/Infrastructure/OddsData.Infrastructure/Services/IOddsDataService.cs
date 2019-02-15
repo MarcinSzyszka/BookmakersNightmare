@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using OddsData.Infrastructure.Enums;
+using Main.Infrastructure.Enums;
 using OddsData.Infrastructure.Models;
 
 namespace OddsData.Infrastructure.Services
 {
     public interface IOddsDataService
     {
-        Task<IEnumerable<MatchBet>> GetResults(Country country, string leagueName);
+        Task<IEnumerable<MatchBet>> GetResults(Country country, string leagueName, DateTime? fromDate);
     }
 }

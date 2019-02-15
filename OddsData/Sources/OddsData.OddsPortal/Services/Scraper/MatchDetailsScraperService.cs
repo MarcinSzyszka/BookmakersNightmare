@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
+using Main.Infrastructure.Enums;
 using OddsData.Infrastructure.Models;
 using OpenQA.Selenium;
 
@@ -12,7 +13,7 @@ namespace OddsData.OddsPortal.Services.Scraper
 {
     public class MatchDetailsScraperService : IMatchDetailsScraperService
     {
-        public async Task<MatchBet> GetMatchBetDetails(IWebDriver driver, string url)
+        public async Task<MatchBet> GetMatchBetDetails(IWebDriver driver, string url, DateTime? fromDate)
         {
             var detailsCol = await GetDetailsColumn(url);
 
@@ -21,21 +22,44 @@ namespace OddsData.OddsPortal.Services.Scraper
             var matchBet = new MatchBet
             {
                 HostsTeamName = teamsNames[0],
-                GuestsTeamName = teamsNames[1]
+                GuestsTeamName = teamsNames[1],
             };
 
             var resultNode = detailsCol.ChildNodes.First(n => n.Id == "event-status").FirstChild;
 
             var results = GetMatchResults(resultNode);
 
-            GoToPageAndScrapData(url, matchBet.FullTime, results.FullTime, driver);
+            matchBet.MatchDate = GoToPageAndScrapData(url, matchBet.FullTime, results.FullTime, driver);
+
+            if (fromDate.HasValue && fromDate >= matchBet.MatchDate)
+            {
+                return null;
+            }
+
             GoToPageAndScrapData($"{url}#1X2;3", matchBet.FirstHalf, results.FirstHalf, driver);
             GoToPageAndScrapData($"{url}#1X2;4", matchBet.SecondHalf, results.SecondHalf, driver);
 
             return matchBet;
         }
 
-        private void GoToPageAndScrapData(string url, SingleBet matchPartBet, SingleBetResult matchPartResult, IWebDriver driver)
+        private DateTime GetMatchDate(HtmlNode dateParagraph)
+        {
+            if (!DateTime.TryParse(dateParagraph.InnerText.TrimStart().TrimEnd(), out var date))
+            {
+                var regex = new Regex(@"^\D+, (.+)");
+
+                var match = regex.Match(dateParagraph.InnerText.TrimStart().TrimEnd());
+
+                if (match.Success)
+                {
+                    DateTime.TryParse(match.Groups[1].Value, out date);
+                }
+            }
+
+            return date;
+        }
+
+        private DateTime GoToPageAndScrapData(string url, SingleBet matchPartBet, SingleBetResult matchPartResult, IWebDriver driver)
         {
             var htmlDoc = new HtmlDocument();
 
@@ -55,6 +79,8 @@ namespace OddsData.OddsPortal.Services.Scraper
             var detailsCol = htmlDoc.DocumentNode.Descendants().First(n => n.Id == "col-left").ChildNodes.First(n => n.Id == "col-content");
 
             GetOddsAndFillData(detailsCol, matchPartBet, matchPartResult);
+
+            return GetMatchDate(detailsCol.ChildNodes.FindFirst("p"));
         }
 
         private async Task<HtmlNode> GetDetailsColumn(string url)
@@ -73,11 +99,11 @@ namespace OddsData.OddsPortal.Services.Scraper
             matchPart.Result = matchPartResult;
             var odds = GetOddsList(detailsCol).ToList();
 
-            matchPart.Odds = odds.Select(o =>  new SingleBetOdds
+            matchPart.Odds = odds.Select(o => new SingleBetOdds
             {
                 Hosts = o.Hosts,
                 Draw = o.Draw,
-                Guests =o.Guests
+                Guests = o.Guests
             });
         }
 
