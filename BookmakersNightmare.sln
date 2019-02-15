@@ -31,13 +31,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Tests", ".Tests", "{4DB3DA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Main.Bootstrapping", "Main.Bootstrapping\Main.Bootstrapping.csproj", "{6AA959A7-8AA4-4005-B351-3F79D01182F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Main.DataManager.Tests", "Tests\Main.DataManager.Tests\Main.DataManager.Tests.csproj", "{01E988CA-87DE-4A40-A140-F8373A0E2C2E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prediction.LearningData", "Prediction\Prediction.LearningData\Prediction.LearningData.csproj", "{9E18574F-4394-4FA4-82C1-F21CA9251FA6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Main.DataManager.Tests", "Tests\Main.DataManager.Tests\Main.DataManager.Tests.csproj", "{01E988CA-87DE-4A40-A140-F8373A0E2C2E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Prediction", "Prediction", "{7B3E3AFF-E56C-4448-98CE-A6BB4EFD6902}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prediction.LearningData.Tests", "Tests\Prediction\Prediction.LearningData.Tests\Prediction.LearningData.Tests.csproj", "{AB78E448-C160-4A22-965F-2AB071821225}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prediction.LearningData.Tests", "Tests\Prediction\Prediction.LearningData.Tests\Prediction.LearningData.Tests.csproj", "{AB78E448-C160-4A22-965F-2AB071821225}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repository", "Repository", "{2FB09B23-909C-40C3-BF0A-056F316F822C}"
 EndProject
@@ -46,6 +44,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OddsData.OddsPortal.Tests", "Tests\OddsData\OddsData.OddsPortal.Tests\OddsData.OddsPortal.Tests.csproj", "{BA1E5D23-122C-4FB7-8C97-ACA25435BFDB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataRepository.Tests", "Tests\Repository\DataRepository.Tests\DataRepository.Tests.csproj", "{2A5DE1EB-4F67-469C-AE5D-B0D688CAF80A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prediction.LearningData", "Prediction\Prediction.LearningData\Prediction.LearningData.csproj", "{992884B6-0A20-4015-88D3-36D862260B7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,10 +89,6 @@ Global
 		{01E988CA-87DE-4A40-A140-F8373A0E2C2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01E988CA-87DE-4A40-A140-F8373A0E2C2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01E988CA-87DE-4A40-A140-F8373A0E2C2E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9E18574F-4394-4FA4-82C1-F21CA9251FA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9E18574F-4394-4FA4-82C1-F21CA9251FA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9E18574F-4394-4FA4-82C1-F21CA9251FA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9E18574F-4394-4FA4-82C1-F21CA9251FA6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AB78E448-C160-4A22-965F-2AB071821225}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AB78E448-C160-4A22-965F-2AB071821225}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB78E448-C160-4A22-965F-2AB071821225}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -105,6 +101,10 @@ Global
 		{2A5DE1EB-4F67-469C-AE5D-B0D688CAF80A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A5DE1EB-4F67-469C-AE5D-B0D688CAF80A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A5DE1EB-4F67-469C-AE5D-B0D688CAF80A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{992884B6-0A20-4015-88D3-36D862260B7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{992884B6-0A20-4015-88D3-36D862260B7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{992884B6-0A20-4015-88D3-36D862260B7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{992884B6-0A20-4015-88D3-36D862260B7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -118,13 +118,13 @@ Global
 		{BC7E6A1B-75FA-4530-A275-1DBA82C0C607} = {C915024C-450B-41B2-B4D3-57DF1CAB30B5}
 		{B5B173FB-2A76-40DC-A1AD-2119E76B1781} = {E793B597-63D7-4E0C-8C07-56E83CC779D8}
 		{01E988CA-87DE-4A40-A140-F8373A0E2C2E} = {4DB3DAE3-53BD-4594-94F5-4E17977EA180}
-		{9E18574F-4394-4FA4-82C1-F21CA9251FA6} = {C915024C-450B-41B2-B4D3-57DF1CAB30B5}
 		{7B3E3AFF-E56C-4448-98CE-A6BB4EFD6902} = {4DB3DAE3-53BD-4594-94F5-4E17977EA180}
 		{AB78E448-C160-4A22-965F-2AB071821225} = {7B3E3AFF-E56C-4448-98CE-A6BB4EFD6902}
 		{2FB09B23-909C-40C3-BF0A-056F316F822C} = {4DB3DAE3-53BD-4594-94F5-4E17977EA180}
 		{E13BCBE7-9AD6-4B3E-A2F1-35952EA9EEF9} = {4DB3DAE3-53BD-4594-94F5-4E17977EA180}
 		{BA1E5D23-122C-4FB7-8C97-ACA25435BFDB} = {E13BCBE7-9AD6-4B3E-A2F1-35952EA9EEF9}
 		{2A5DE1EB-4F67-469C-AE5D-B0D688CAF80A} = {2FB09B23-909C-40C3-BF0A-056F316F822C}
+		{992884B6-0A20-4015-88D3-36D862260B7B} = {C915024C-450B-41B2-B4D3-57DF1CAB30B5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6ED222D8-1B15-40EB-A156-B8E891343944}

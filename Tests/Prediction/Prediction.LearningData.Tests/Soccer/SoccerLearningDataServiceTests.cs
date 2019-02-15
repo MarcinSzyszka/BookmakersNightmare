@@ -28,6 +28,7 @@ namespace Prediction.LearningData.Tests.Soccer
             Assert.NotNull(result);
             Assert.True(File.Exists(result));
         }
+
         #region CONFIGURATION
 
         private ISoccerLearningDataService _serviceUnderTest;
