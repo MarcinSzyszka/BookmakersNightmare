@@ -13,11 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OddsData.Infrastructure", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OddsData.OddsPortal", "OddsData\Sources\OddsData.OddsPortal\OddsData.OddsPortal.csproj", "{753F060B-63F7-4A12-B5CC-194D95CFD21E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OddsData.Source", "OddsData\OddsData.Source\OddsData.Source.csproj", "{D4AD8B6E-3AF4-4C0E-B345-A9F8501C1AA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OddsData.Source", "OddsData\OddsData.Source\OddsData.Source.csproj", "{D4AD8B6E-3AF4-4C0E-B345-A9F8501C1AA5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Tests", ".Tests", "{240A9172-667C-42AB-BB47-48FD6D53B920}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OddsData.OddsPortal.Tests", "OddsData\Tests\OddsData.OddsPortal.Tests\OddsData.OddsPortal.Tests.csproj", "{96318E2C-C7A3-4D3F-931A-4CFF7410CB99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OddsData.OddsPortal.Tests", "OddsData\Tests\OddsData.OddsPortal.Tests\OddsData.OddsPortal.Tests.csproj", "{96318E2C-C7A3-4D3F-931A-4CFF7410CB99}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

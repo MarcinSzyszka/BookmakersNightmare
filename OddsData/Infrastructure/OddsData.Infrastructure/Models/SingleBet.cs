@@ -1,9 +1,11 @@
-﻿namespace OddsData.Infrastructure.Models
+﻿using System.Collections.Generic;
+
+namespace OddsData.Infrastructure.Models
 {
     public class SingleBet
     {
-        public SingleBetOdds OddsAverage { get; set; }
-
         public SingleBetResult Result { get; set; }
+
+        public IEnumerable<SingleBetOdds> Odds { get; set; }
     }
 }

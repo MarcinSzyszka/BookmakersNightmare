@@ -1,6 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
-using Moq;
 using Newtonsoft.Json;
 using OddsData.Infrastructure.Enums;
 using OddsData.Infrastructure.Models;
@@ -22,8 +22,13 @@ namespace OddsData.OddsPortal.Tests
                 League = "Division-2"
             };
 
+            var result = default(IEnumerable<MatchBet>);
+
             //Act
-            var result = await _serviceUnderTest.GetMatchBetsWithResultsInLatestSeason(leagueUrl, countryLeague);
+            using (_serviceUnderTest)
+            {
+                result = await _serviceUnderTest.GetMatchBetsWithResultsInLatestSeason(leagueUrl, countryLeague);
+            }
 
             //Assert
             Assert.NotNull(result);

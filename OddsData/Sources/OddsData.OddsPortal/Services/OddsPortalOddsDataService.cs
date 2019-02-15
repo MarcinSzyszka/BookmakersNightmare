@@ -27,7 +27,10 @@ namespace OddsData.OddsPortal.Services
                 League = leagueName
             };
 
-            return _webScraper.GetMatchBetsWithResultsInLatestSeason(url, countryLeague);
+            using (_webScraper)
+            {
+                return _webScraper.GetMatchBetsWithResultsInLatestSeason(url, countryLeague);
+            }
         }
     }
 }

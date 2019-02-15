@@ -1,10 +1,11 @@
 ﻿using System.Threading.Tasks;
 using OddsData.Infrastructure.Models;
+using OpenQA.Selenium;
 
 namespace OddsData.OddsPortal.Services.Scraper
 {
     public interface IMatchDetailsScraperService
     {
-        Task<MatchBet> GetMatchBetDetails(string url);
+        Task<MatchBet> GetMatchBetDetails(IWebDriver driver, string url);
     }
 }

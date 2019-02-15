@@ -1,6 +1,9 @@
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using OddsData.Infrastructure.Models;
 using OddsData.OddsPortal.Services.Scraper;
+using OpenQA.Selenium.Chrome;
 using Xunit;
 
 namespace OddsData.OddsPortal.Tests
@@ -12,9 +15,13 @@ namespace OddsData.OddsPortal.Tests
         {
             //Arrange
             var matchDetailsUrl = @"https://www.oddsportal.com/soccer/england/premier-league/wolves-newcastle-utd-nNNqedbR/";
+            var result = default(MatchBet);
 
             //Act
-            var result = await _serviceUnderTest.GetMatchBetDetails(matchDetailsUrl);
+            using (var driver = new ChromeDriver(AppDomain.CurrentDomain.BaseDirectory))
+            {
+                result = await _serviceUnderTest.GetMatchBetDetails(driver, matchDetailsUrl);
+            }
 
             //Assert
             Assert.NotNull(result);
@@ -23,7 +30,7 @@ namespace OddsData.OddsPortal.Tests
             Assert.Equal(SingleBetResult.Draw, result.FullTime.Result);
             Assert.Equal(SingleBetResult.Draw, result.FirstHalf.Result);
             Assert.Equal(SingleBetResult.Draw, result.SecondHalf.Result);
-            Assert.True(result.FullTime.OddsAverage.Draw > 0);
+            Assert.True(result.FullTime.Odds.Average(o => o.Draw) > 0);
         }
 
 

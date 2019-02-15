@@ -11,17 +11,36 @@ namespace OddsData.OddsPortal.Services.Scraper
     public class WebScraperService : IWebScraperService
     {
         private readonly IMatchDetailsScraperService _matchDetailsScrapper;
+        private string _countryLeagueResultsUrl;
+        private string _baseUrl;
+        private readonly ChromeDriver _driver;
 
         public WebScraperService(IMatchDetailsScraperService matchDetailsScrapper)
         {
             _matchDetailsScrapper = matchDetailsScrapper;
+            _driver = new ChromeDriver(AppDomain.CurrentDomain.BaseDirectory);
         }
 
-        public async Task<IEnumerable<MatchBet>> GetMatchBetsWithResultsInLatestSeason(string url, CountryLeague countryLeague)
+        public async Task<IEnumerable<MatchBet>> GetMatchBetsWithResultsInLatestSeason(string baseUrl, CountryLeague countryLeague)
         {
-            var countryLeagueResultsUrl = $"{url}/soccer/{countryLeague.Country}/{countryLeague.League}/results/".ToLower();
+            _baseUrl = baseUrl;
+            _countryLeagueResultsUrl = $"{baseUrl}/soccer/{countryLeague.Country}/{countryLeague.League}/results/".ToLower();
 
-            var htmlDoc = GetHtmlDoc(countryLeagueResultsUrl);
+            var pagesCount = GetResultsPagesCount();
+
+            var matchBetsResults = new List<MatchBet>();
+
+            for (var i = 1; i <= pagesCount; i++)
+            {
+                matchBetsResults.AddRange(await GetMatchesDetails(i));
+            }
+
+            return matchBetsResults;
+        }
+
+        private int GetResultsPagesCount()
+        {
+            var htmlDoc = GetHtmlDoc(_countryLeagueResultsUrl);
 
             var pagesCount = 1;
 
@@ -30,22 +49,14 @@ namespace OddsData.OddsPortal.Services.Scraper
             {
                 pagesCount = paginationNode.ChildNodes.Select(n => n.GetAttributeValue("x-page", 1)).OrderBy(x => x).Distinct().Count();
             }
-            var matchBetsResults = new List<MatchBet>();
 
-            matchBetsResults.AddRange(await GetMatchesDetails(url, htmlDoc));
-
-            for (int i = 1; i < pagesCount; i++)
-            {
-                htmlDoc = GetHtmlDoc($"{countryLeagueResultsUrl}#/page/{i}/");
-
-                matchBetsResults.AddRange(await GetMatchesDetails(url, htmlDoc));
-            }
-
-            return matchBetsResults;
+            return pagesCount;
         }
 
-        private async Task<IEnumerable<MatchBet>> GetMatchesDetails(string url, HtmlDocument htmlDoc)
+        private async Task<IEnumerable<MatchBet>> GetMatchesDetails(int page)
         {
+            var htmlDoc = GetHtmlDoc($"{_countryLeagueResultsUrl}#/page/{page}/");
+
             var tournamentTable = htmlDoc.DocumentNode.Descendants("table").FirstOrDefault(n => n.Id == "tournamentTable");
 
             if (tournamentTable == null)
@@ -60,23 +71,7 @@ namespace OddsData.OddsPortal.Services.Scraper
                 throw new ArgumentNullException("There is no data for the latest season");
             }
 
-            return await GetDetailsFromRows(url, resultsRows);
-        }
-
-        private static HtmlDocument GetHtmlDoc(string countryLeagueResultsUrl)
-        {
-            var htmlDoc = new HtmlDocument();
-
-            using (var driver = new ChromeDriver(AppDomain.CurrentDomain.BaseDirectory)
-            {
-                Url = countryLeagueResultsUrl
-            })
-            {
-                htmlDoc = new HtmlDocument();
-                htmlDoc.LoadHtml(driver.PageSource);
-            }
-
-            return htmlDoc;
+            return await GetDetailsFromRows(resultsRows);
         }
 
         private List<HtmlNode> GetResultRows(HtmlNode tournamentTable)
@@ -84,19 +79,52 @@ namespace OddsData.OddsPortal.Services.Scraper
             return tournamentTable.Descendants("tr").Where(n => n.HasClass("deactivate")).ToList();
         }
 
-        private async Task<IEnumerable<MatchBet>> GetDetailsFromRows(string url, List<HtmlNode> resultsRows)
+        private async Task<IEnumerable<MatchBet>> GetDetailsFromRows(List<HtmlNode> resultsRows)
         {
-            var tasks = new List<Task<MatchBet>>();
-            //var result = new List<MatchBet>();
+            var tasks = new List<Task<IEnumerable<MatchBet>>>();
 
-            foreach (var row in resultsRows)
+            var bulkParts = resultsRows.Count / Environment.ProcessorCount;
+
+            for (var i = 0; i <= Environment.ProcessorCount; i++)
             {
-                var matchDetailsUrl = row.ChildNodes.First(n => n.HasClass("table-participant")).ChildNodes.First().GetAttributeValue("href", null);
-
-                tasks.Add(_matchDetailsScrapper.GetMatchBetDetails($"{url}{matchDetailsUrl}"));
+                tasks.Add(Task.Run(async () => await GetMatchDetails(resultsRows.Take(bulkParts))));
             }
 
-            return await Task.WhenAll(tasks.ToArray());
+            var tasksResults = await Task.WhenAll(tasks.ToArray());
+
+            return tasksResults.SelectMany(m => m);
+        }
+
+        private async Task<IEnumerable<MatchBet>> GetMatchDetails(IEnumerable<HtmlNode> rows)
+        {
+            var result = new List<MatchBet>(rows.Count());
+
+            using (var webDriver = new ChromeDriver(AppDomain.CurrentDomain.BaseDirectory))
+            {
+                foreach (var row in rows)
+                {
+                    var matchDetailsUrl = row.ChildNodes.First(n => n.HasClass("table-participant")).ChildNodes.First().GetAttributeValue("href", null);
+
+                    result.Add(await _matchDetailsScrapper.GetMatchBetDetails(webDriver, $"{_baseUrl}{matchDetailsUrl}"));
+                }
+            }
+
+            return result;
+        }
+
+        private HtmlDocument GetHtmlDoc(string url)
+        {
+            _driver.Url = url;
+
+            var htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(_driver.PageSource);
+
+            return htmlDoc;
+        }
+
+        public void Dispose()
+        {
+            _driver?.Dispose();
         }
     }
 }

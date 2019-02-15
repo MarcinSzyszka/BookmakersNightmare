@@ -7,13 +7,12 @@ using System.Threading.Tasks;
 using HtmlAgilityPack;
 using OddsData.Infrastructure.Models;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 
 namespace OddsData.OddsPortal.Services.Scraper
 {
     public class MatchDetailsScraperService : IMatchDetailsScraperService
     {
-        public async Task<MatchBet> GetMatchBetDetails(string url)
+        public async Task<MatchBet> GetMatchBetDetails(IWebDriver driver, string url)
         {
             var detailsCol = await GetDetailsColumn(url);
 
@@ -29,12 +28,9 @@ namespace OddsData.OddsPortal.Services.Scraper
 
             var results = GetMatchResults(resultNode);
 
-            using (var driver = new ChromeDriver(AppDomain.CurrentDomain.BaseDirectory))
-            {
-                GoToPageAndScrapData(url, matchBet.FullTime, results.FullTime, driver);
-                GoToPageAndScrapData($"{url}#1X2;3", matchBet.FirstHalf, results.FirstHalf, driver);
-                GoToPageAndScrapData($"{url}#1X2;4", matchBet.SecondHalf, results.SecondHalf, driver);
-            }
+            GoToPageAndScrapData(url, matchBet.FullTime, results.FullTime, driver);
+            GoToPageAndScrapData($"{url}#1X2;3", matchBet.FirstHalf, results.FirstHalf, driver);
+            GoToPageAndScrapData($"{url}#1X2;4", matchBet.SecondHalf, results.SecondHalf, driver);
 
             return matchBet;
         }
@@ -43,8 +39,16 @@ namespace OddsData.OddsPortal.Services.Scraper
         {
             var htmlDoc = new HtmlDocument();
 
-            driver.Navigate().GoToUrl(url);
-            driver.Navigate().Refresh();
+            if (string.IsNullOrEmpty(driver.Url))
+            {
+                driver.Url = url;
+            }
+            else
+            {
+                driver.Navigate().GoToUrl(url);
+                driver.Navigate().Refresh();
+            }
+
 
             htmlDoc.LoadHtml(driver.PageSource);
 
@@ -53,7 +57,7 @@ namespace OddsData.OddsPortal.Services.Scraper
             GetOddsAndFillData(detailsCol, matchPartBet, matchPartResult);
         }
 
-        private static async Task<HtmlNode> GetDetailsColumn(string url)
+        private async Task<HtmlNode> GetDetailsColumn(string url)
         {
             var web = new HtmlWeb();
 
@@ -69,12 +73,12 @@ namespace OddsData.OddsPortal.Services.Scraper
             matchPart.Result = matchPartResult;
             var odds = GetOddsList(detailsCol).ToList();
 
-            matchPart.OddsAverage = new SingleBetOdds
+            matchPart.Odds = odds.Select(o =>  new SingleBetOdds
             {
-                Hosts = odds.Select(x => x.Hosts).Average(),
-                Draw = odds.Select(x => x.Draw).Average(),
-                Guests = odds.Select(x => x.Guests).Average()
-            };
+                Hosts = o.Hosts,
+                Draw = o.Draw,
+                Guests =o.Guests
+            });
         }
 
         private IEnumerable<SingleBetOdds> GetOddsList(HtmlNode detailsCol)

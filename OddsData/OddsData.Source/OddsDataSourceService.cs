@@ -21,11 +21,11 @@ namespace OddsData.Source
             {
                 var result = await _oddsDataService.GetResults(country, leagueName);
 
-                return new GetOddsDataResult(true, result, "Success!");
+                return new GetOddsDataResult(true, country, leagueName, result);
             }
             catch (Exception e)
             {
-                return new GetOddsDataResult(false, null, e.Message);
+                return new GetOddsDataResult(false, e.Message);
             }
         }
     }
