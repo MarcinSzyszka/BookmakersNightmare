@@ -10,10 +10,6 @@ namespace Prediction.LearningData.Tests.Fixtures
         public MainFixture()
         {
             Container = Startup.Bootstrap();
-
-
         }
-
-
     }
 }

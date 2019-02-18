@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Main.Infrastructure.Enums;
 
-namespace Main.DataManager.Sports.Soccer.Services
+namespace Main.DataManager.Soccer.Services
 {
     public interface ISoccerDataService
     {

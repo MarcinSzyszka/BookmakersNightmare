@@ -1,15 +1,19 @@
-﻿using Main.Infrastructure.Enums;
+﻿using Microsoft.ML.Data;
 
 namespace Prediction.Training.Soccer.Models
 {
     public class MatchBetResult
     {
-        public decimal OddsHosts { get; set; }
+        [Column("0")]
+        public float OddsHosts;
 
-        public decimal OddsDraw { get; set; }
+        [Column("1")]
+        public float OddsDraw;
 
-        public decimal OddsGuests { get; set; }
+        [Column("2")]
+        public float OddsGuests;
 
-        public SingleBetResult Result { get; set; }
+        [Column("3")]
+        public int Result;
     }
 }

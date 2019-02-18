@@ -1,9 +1,10 @@
-﻿using Main.Infrastructure.Enums;
+﻿using Microsoft.ML.Data;
 
 namespace Prediction.Training.Soccer.Models
 {
     public class MatchBetResultPrediction
     {
-        public SingleBetResult Result { get; set; }
+        [ColumnName("Score")]
+        public float Result = -100;
     }
 }

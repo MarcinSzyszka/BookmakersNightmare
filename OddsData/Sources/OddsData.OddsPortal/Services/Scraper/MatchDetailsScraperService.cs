@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using HtmlAgilityPack;
 using Main.Infrastructure.Enums;
 using OddsData.Infrastructure.Models;
+using OddsData.OddsPortal.Enums;
 using OpenQA.Selenium;
 
 namespace OddsData.OddsPortal.Services.Scraper
@@ -29,15 +30,27 @@ namespace OddsData.OddsPortal.Services.Scraper
 
             var results = GetMatchResults(resultNode);
 
-            matchBet.MatchDate = GoToPageAndScrapData(url, matchBet.FullTime, results.FullTime, driver);
+            if (results == null)
+            {
+                return null;
+            }
+
+            matchBet.MatchDate = GoToPageAndScrapData(url, matchBet.FullTime, results.FullTime, driver, MatchPart.FullTime).Value;
 
             if (fromDate.HasValue && fromDate >= matchBet.MatchDate)
             {
                 return null;
             }
 
-            GoToPageAndScrapData($"{url}#1X2;3", matchBet.FirstHalf, results.FirstHalf, driver);
-            GoToPageAndScrapData($"{url}#1X2;4", matchBet.SecondHalf, results.SecondHalf, driver);
+            if (results.FirstHalf > SingleBetResult.Unknown)
+            {
+                GoToPageAndScrapData($"{url}#1X2;3", matchBet.FirstHalf, results.FirstHalf, driver, MatchPart.FirstHalf);
+            }
+
+            if (results.SecondHalf > SingleBetResult.Unknown)
+            {
+                GoToPageAndScrapData($"{url}#1X2;4", matchBet.SecondHalf, results.SecondHalf, driver, MatchPart.SecondHalf);
+            }
 
             return matchBet;
         }
@@ -59,11 +72,11 @@ namespace OddsData.OddsPortal.Services.Scraper
             return date;
         }
 
-        private DateTime GoToPageAndScrapData(string url, SingleBet matchPartBet, SingleBetResult matchPartResult, IWebDriver driver)
+        private DateTime? GoToPageAndScrapData(string url, SingleBet matchPartBet, SingleBetResult matchPartResult, IWebDriver driver, MatchPart matchPart)
         {
             var htmlDoc = new HtmlDocument();
 
-            if (string.IsNullOrEmpty(driver.Url))
+            if (string.IsNullOrEmpty(driver.Url) || driver.Url == "data:,")
             {
                 driver.Url = url;
             }
@@ -73,14 +86,20 @@ namespace OddsData.OddsPortal.Services.Scraper
                 driver.Navigate().Refresh();
             }
 
-
             htmlDoc.LoadHtml(driver.PageSource);
 
             var detailsCol = htmlDoc.DocumentNode.Descendants().First(n => n.Id == "col-left").ChildNodes.First(n => n.Id == "col-content");
 
-            GetOddsAndFillData(detailsCol, matchPartBet, matchPartResult);
+            var matchPartsOddsList = detailsCol.Descendants("ul").First(n => n.HasClass("sub-menu") && n.HasClass("subactive"));
 
-            return GetMatchDate(detailsCol.ChildNodes.FindFirst("p"));
+            if ((int)matchPart < matchPartsOddsList.ChildNodes.Count)
+            {
+                GetOddsAndFillData(detailsCol, matchPartBet, matchPartResult);
+
+                return GetMatchDate(detailsCol.ChildNodes.FindFirst("p"));
+            }
+
+            return null;
         }
 
         private async Task<HtmlNode> GetDetailsColumn(string url)
@@ -138,7 +157,7 @@ namespace OddsData.OddsPortal.Services.Scraper
 
             if (!match.Success)
             {
-                throw new ArgumentException("Could not parse match results from details page!");
+                return null;
             }
 
             var fullTimeResultScoresString = match.Groups[1].Value.Split(':');

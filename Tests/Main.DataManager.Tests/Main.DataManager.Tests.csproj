@@ -17,6 +17,12 @@
     <ProjectReference Include="..\..\Main.Bootstrapping\Main.Bootstrapping.csproj" />
     <ProjectReference Include="..\..\Main.DataManager\Main.DataManager.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="App.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   
     <Target Name="CopyAppConfig" AfterTargets="Build" DependsOnTargets="Build">
     <CreateItem Include="$(OutputPath)$(AssemblyName).dll.config">

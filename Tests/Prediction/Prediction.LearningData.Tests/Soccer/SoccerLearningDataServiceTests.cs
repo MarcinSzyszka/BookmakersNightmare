@@ -1,7 +1,5 @@
 ﻿using System.IO;
 using Autofac;
-using DataRepository.Models.Soccer;
-using DataRepository.Services.Soccer;
 using Prediction.LearningData.Soccer.Services;
 using Prediction.LearningData.Tests.Fixtures;
 using Xunit;
@@ -14,12 +12,12 @@ namespace Prediction.LearningData.Tests.Soccer
         public void PrepareFullTimeDataAndGetResultsFilePath_ShouldReturnPathToNotEmptyFile()
         {
             //Arrange
-            var fullTimeSoccerRepository = _fixture.Container.Resolve<ISoccerRepositoryService<SoccerFullTimeMatchBetEntity>>();
+            //var fullTimeSoccerRepository = _fixture.Container.Resolve<ISoccerRepositoryService<SoccerFullTimeMatchBetEntity>>();
 
-            fullTimeSoccerRepository.Insert(new SoccerFullTimeMatchBetEntity
-            {
-                HostsTeam = "Blablabla"
-            });
+            //fullTimeSoccerRepository.Insert(new SoccerFullTimeMatchBetEntity
+            //{
+            //    HostsTeam = "Blablabla"
+            //});
 
             //Act
             var result = _serviceUnderTest.PrepareFullTimeDataAndGetResultsFilePath();

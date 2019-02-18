@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Configuration;
-using System.IO;
-using System.Linq;
 using DataRepository.Models;
 using SQLite;
 
@@ -14,7 +11,7 @@ namespace DataRepository.Services
 
         protected RepositoryServiceBase()
         {
-            DbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConfigurationManager.AppSettings["DataRepositoryDbName"]);
+            DbPath = ConfigurationManager.AppSettings["DataRepositoryDbPath"];
 
             using (var db = new SQLiteConnection(DbPath))
             {

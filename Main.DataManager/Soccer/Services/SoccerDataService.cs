@@ -6,14 +6,13 @@ using DataRepository.Services.Soccer;
 using Main.Infrastructure.Enums;
 using OddsData.Source;
 
-namespace Main.DataManager.Sports.Soccer.Services
+namespace Main.DataManager.Soccer.Services
 {
     public class SoccerDataService : ISoccerDataService
     {
         private readonly ISoccerRepositoryService<SoccerFullTimeMatchBetEntity> _soccerFullTimeRepositoryService;
         private readonly ISoccerRepositoryService<SoccerFirstHalfMatchBetEntity> _soccerFirstHalfRepositoryService;
         private readonly ISoccerRepositoryService<SoccerSecondHalfMatchBetEntity> _soccerSecondHalfRepositoryService;
-
         private readonly IOddsDataSourceService _oddsDataSourceService;
 
         public SoccerDataService(ISoccerRepositoryService<SoccerFullTimeMatchBetEntity> soccerFullTimeRepositoryService, ISoccerRepositoryService<SoccerFirstHalfMatchBetEntity> soccerFirstHalfRepositoryService, ISoccerRepositoryService<SoccerSecondHalfMatchBetEntity> soccerSecondHalfRepositoryService, IOddsDataSourceService oddsDataSourceService)

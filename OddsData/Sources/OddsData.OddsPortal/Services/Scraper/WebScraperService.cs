@@ -13,7 +13,6 @@ namespace OddsData.OddsPortal.Services.Scraper
         private readonly IMatchDetailsScraperService _matchDetailsScrapper;
         private string _countryLeagueResultsUrl;
         private string _baseUrl;
-        private ChromeDriver _driver;
         private DateTime? _fromDate;
 
         public WebScraperService(IMatchDetailsScraperService matchDetailsScrapper)
@@ -23,7 +22,6 @@ namespace OddsData.OddsPortal.Services.Scraper
 
         public async Task<IEnumerable<MatchBet>> GetMatchBetsWithResultsInLatestSeason(string baseUrl, CountryLeague countryLeague, DateTime? fromDate)
         {
-            InitWebDriver();
             _baseUrl = baseUrl;
             _countryLeagueResultsUrl = $"{baseUrl}/soccer/{countryLeague.Country}/{countryLeague.League}/results/".ToLower();
             _fromDate = fromDate;
@@ -34,7 +32,9 @@ namespace OddsData.OddsPortal.Services.Scraper
 
             for (var i = 1; i <= pagesCount; i++)
             {
-                matchBetsResults.AddRange(await GetMatchesDetails(i));
+                var results = await GetMatchesDetails(i);
+
+                matchBetsResults.AddRange(results);
             }
 
             return matchBetsResults;
@@ -66,7 +66,7 @@ namespace OddsData.OddsPortal.Services.Scraper
                 throw new ArgumentNullException("Could not find the results for specified country and league. Check if country and league are correct.");
             }
 
-            var resultsRows = GetResultRows(tournamentTable);
+            var resultsRows = tournamentTable.Descendants("tr").Where(n => n.HasClass("deactivate") && n.ChildNodes.Any(cn => cn.HasClass("table-score"))).ToList();
 
             if (!resultsRows.Any())
             {
@@ -76,20 +76,16 @@ namespace OddsData.OddsPortal.Services.Scraper
             return await GetDetailsFromRows(resultsRows);
         }
 
-        private List<HtmlNode> GetResultRows(HtmlNode tournamentTable)
-        {
-            return tournamentTable.Descendants("tr").Where(n => n.HasClass("deactivate")).ToList();
-        }
-
         private async Task<IEnumerable<MatchBet>> GetDetailsFromRows(List<HtmlNode> resultsRows)
         {
             var tasks = new List<Task<IEnumerable<MatchBet>>>();
 
-            var bulkParts = resultsRows.Count / Environment.ProcessorCount;
+            var bulkParts = resultsRows.Count / 2;
 
-            for (var i = 0; i <= Environment.ProcessorCount; i++)
+            for (var i = 0; i <= 2; i++)
             {
-                tasks.Add(Task.Run(async () => await GetMatchDetails(resultsRows.Take(bulkParts))));
+                var resultsPart = resultsRows.Skip(i * bulkParts).Take(bulkParts).ToList();
+                tasks.Add(Task.Run(async () => await GetMatchDetails(resultsPart)));
             }
 
             var tasksResults = await Task.WhenAll(tasks.ToArray());
@@ -108,7 +104,7 @@ namespace OddsData.OddsPortal.Services.Scraper
                     var matchDetailsUrl = row.ChildNodes.First(n => n.HasClass("table-participant")).ChildNodes.First().GetAttributeValue("href", null);
 
                     var matchDetails = await _matchDetailsScrapper.GetMatchBetDetails(webDriver, $"{_baseUrl}{matchDetailsUrl}", _fromDate);
-                    
+
                     if (matchDetails == null)
                     {
                         break;
@@ -123,22 +119,15 @@ namespace OddsData.OddsPortal.Services.Scraper
 
         private HtmlDocument GetHtmlDoc(string url)
         {
-            _driver.Url = url;
-
             var htmlDoc = new HtmlDocument();
-            htmlDoc.LoadHtml(_driver.PageSource);
+
+            using (var driver = new ChromeDriver(AppDomain.CurrentDomain.BaseDirectory))
+            {
+                driver.Url = url;
+                htmlDoc.LoadHtml(driver.PageSource);
+            }
 
             return htmlDoc;
-        }
-
-        private void InitWebDriver()
-        {
-            _driver = new ChromeDriver(AppDomain.CurrentDomain.BaseDirectory);
-        }
-
-        public void Dispose()
-        {
-            _driver?.Dispose();
         }
     }
 }

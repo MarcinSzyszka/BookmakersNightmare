@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using CsvHelper;
 using DataRepository.Models.Soccer;
 using DataRepository.Services.Soccer;
 using Main.Infrastructure.Enums;
+using Prediction.LearningData.Soccer.Models;
 
 namespace Prediction.LearningData.Soccer.Services
 {
@@ -71,12 +73,15 @@ namespace Prediction.LearningData.Soccer.Services
             using (var writer = new StreamWriter(fileName, false))
             using (var csv = new CsvWriter(writer))
             {
-                csv.WriteRecords(matchBetsEntities.Select(e => new
+                csv.Configuration.Delimiter = ",";
+                csv.Configuration.CultureInfo = CultureInfo.GetCultureInfo("en-US");
+
+                csv.WriteRecords(matchBetsEntities.Select(e => new MatchBetResult
                 {
-                    e.OddsHosts,
-                    e.OddsDraw,
-                    e.OddsGuests,
-                    e.Result
+                    OddsHosts = e.OddsHosts,
+                    OddsDraw = e.OddsDraw,
+                    OddsGuests = e.OddsGuests,
+                    Result = (int)e.Result
                 }));
             }
 

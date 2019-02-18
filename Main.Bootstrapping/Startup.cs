@@ -1,4 +1,7 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using Autofac;
 using DataRepository.Services.Soccer;
 
@@ -10,7 +13,10 @@ namespace Main.Bootstrapping
         {
             var containerBuilder = new ContainerBuilder();
 
-            containerBuilder.RegisterAssemblyTypes(AppDomain.CurrentDomain.GetAssemblies())
+            var referencedAssembliesPaths = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll");
+            var assemblies = referencedAssembliesPaths.Select(path => AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(path)));
+
+            containerBuilder.RegisterAssemblyTypes(assemblies.ToArray())
                 .Where(t => t.Name.EndsWith("Service"))
                 .AsImplementedInterfaces();
 

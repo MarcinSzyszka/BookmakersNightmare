@@ -34,6 +34,53 @@ namespace OddsData.OddsPortal.Tests
             Assert.True(result.FullTime.Odds.Average(o => o.Draw) > 0);
         }
 
+        [Fact]
+        public async Task GetMatchBetDetails_ShouldReturnCorrectResults_ForMatchBetween_MarimooAndWellingara()
+        {
+            //Arrange
+            var matchDetailsUrl = @"https://www.oddsportal.com/soccer/gambia/gfa-league/marimoo-wellingara-OYmcOIii/";
+            var result = default(MatchBet);
+
+            //Act
+            using (var driver = new ChromeDriver(AppDomain.CurrentDomain.BaseDirectory))
+            {
+                result = await _serviceUnderTest.GetMatchBetDetails(driver, matchDetailsUrl, null);
+            }
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.Equal("Marimoo", result.HostsTeamName);
+            Assert.Equal("Wellingara", result.GuestsTeamName);
+            Assert.Equal(SingleBetResult.Draw, result.FullTime.Result);
+            Assert.Equal(SingleBetResult.Unknown, result.FirstHalf.Result);
+            Assert.Equal(SingleBetResult.Unknown, result.SecondHalf.Result);
+            Assert.True(result.FullTime.Odds.Average(o => o.Draw) > 0);
+        }
+
+        [Fact]
+        public async Task GetMatchBetDetails_ShouldReturnCorrectResults_ForMatchBetween_HawksAndGambiaPorts()
+        {
+            //Arrange
+            var matchDetailsUrl = @"https://www.oddsportal.com/soccer/gambia/gfa-league/hawks-gambia-ports-EsqZYZyM/";
+            var result = default(MatchBet);
+
+            //Act
+            using (var driver = new ChromeDriver(AppDomain.CurrentDomain.BaseDirectory))
+            {
+                result = await _serviceUnderTest.GetMatchBetDetails(driver, matchDetailsUrl, null);
+            }
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.Equal("Hawks", result.HostsTeamName);
+            Assert.Equal("Gambia Ports", result.GuestsTeamName);
+            Assert.Equal(SingleBetResult.Draw, result.FullTime.Result);
+            Assert.Equal(SingleBetResult.Draw, result.FirstHalf.Result);
+            Assert.Equal(SingleBetResult.Unknown, result.SecondHalf.Result);
+            Assert.True(result.FullTime.Odds.Average(o => o.Draw) > 0);
+            Assert.True(result.FirstHalf.Odds.Average(o => o.Draw) > 0);
+            Assert.Empty(result.SecondHalf.Odds);
+        }
 
 
         #region CONFIGURATION

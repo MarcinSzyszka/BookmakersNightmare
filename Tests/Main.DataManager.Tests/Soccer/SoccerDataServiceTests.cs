@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Autofac;
-using Main.DataManager.Sports.Soccer.Services;
+using Main.DataManager.Soccer.Services;
 using Main.DataManager.Tests.Fixtures;
 using Main.Infrastructure.Enums;
 using Xunit;

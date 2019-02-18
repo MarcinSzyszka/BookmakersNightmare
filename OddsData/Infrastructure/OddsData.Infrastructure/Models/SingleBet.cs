@@ -5,8 +5,8 @@ namespace OddsData.Infrastructure.Models
 {
     public class SingleBet
     {
-        public SingleBetResult Result { get; set; }
+        public SingleBetResult Result { get; set; } = SingleBetResult.Unknown;
 
-        public IEnumerable<SingleBetOdds> Odds { get; set; }
+        public IEnumerable<SingleBetOdds> Odds { get; set; } = new List<SingleBetOdds>();
     }
 }

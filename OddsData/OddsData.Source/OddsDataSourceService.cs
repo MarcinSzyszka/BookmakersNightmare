@@ -17,16 +17,9 @@ namespace OddsData.Source
 
         public async Task<GetOddsDataResult> GetData(Country country, string leagueName, DateTime? fromDate)
         {
-            try
-            {
-                var result = await _oddsDataService.GetResults(country, leagueName, fromDate);
+            var result = await _oddsDataService.GetResults(country, leagueName, fromDate);
 
-                return new GetOddsDataResult(true, country, leagueName, result);
-            }
-            catch (Exception e)
-            {
-                return new GetOddsDataResult(false, e.Message);
-            }
+            return new GetOddsDataResult(true, country, leagueName, result);
         }
     }
 }

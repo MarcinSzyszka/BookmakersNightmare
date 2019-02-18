@@ -25,10 +25,7 @@ namespace OddsData.OddsPortal.Tests
             var result = default(IEnumerable<MatchBet>);
 
             //Act
-            using (_serviceUnderTest)
-            {
-                result = await _serviceUnderTest.GetMatchBetsWithResultsInLatestSeason(leagueUrl, countryLeague, null);
-            }
+            result = await _serviceUnderTest.GetMatchBetsWithResultsInLatestSeason(leagueUrl, countryLeague, null);
 
             //Assert
             Assert.NotNull(result);
