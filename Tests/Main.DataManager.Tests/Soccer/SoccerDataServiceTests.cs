@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Autofac;
-using Main.DataManager.Soccer.Services;
+using Main.DataManager.Soccer.Odds.Services;
 using Main.DataManager.Tests.Fixtures;
 using Main.Infrastructure.Enums;
 using Xunit;
@@ -21,13 +21,13 @@ namespace Main.DataManager.Tests.Soccer
         }
         #region CONFIGURATION
 
-        private readonly ISoccerDataService _serviceUnderTest;
+        private readonly ISoccerOddsDataService _serviceUnderTest;
         private readonly BootstrappedFixture _fixture;
 
         public SoccerDataServiceTests(BootstrappedFixture fixture)
         {
             _fixture = fixture;
-            _serviceUnderTest = fixture.Container.Resolve<ISoccerDataService>();
+            _serviceUnderTest = fixture.Container.Resolve<ISoccerOddsDataService>();
         }
         #endregion
     }

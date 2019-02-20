@@ -10,4 +10,8 @@
     <ProjectReference Include="..\Repository\DataRepository\DataRepository.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Soccer\Stats\" />
+  </ItemGroup>
+
 </Project>

@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Main.Infrastructure.Enums;
 
-namespace Main.DataManager.Soccer.Services
+namespace Main.DataManager.Soccer.Odds.Services
 {
-    public interface ISoccerDataService
+    public interface ISoccerOddsDataService
     {
         Task UpdateResultsData(Country country, string leagueName);
     }

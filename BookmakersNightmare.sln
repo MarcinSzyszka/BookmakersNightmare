@@ -45,9 +45,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataRepository.Tests", "Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prediction.LearningData", "Prediction\Prediction.LearningData\Prediction.LearningData.csproj", "{992884B6-0A20-4015-88D3-36D862260B7B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prediction.Training.Tests", "Tests\Prediction\Prediction.Training.Tests\Prediction.Training.Tests.csproj", "{B4A49785-F5A5-45DA-8F53-C2CBB36F22A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prediction.Training.Tests", "Tests\Prediction\Prediction.Training.Tests\Prediction.Training.Tests.csproj", "{B4A49785-F5A5-45DA-8F53-C2CBB36F22A0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prediction.LearningData.Tests", "Tests\Prediction\Prediction.LearningData.Tests\Prediction.LearningData.Tests.csproj", "{24B705CA-A22A-4D89-BAA6-9A9ABA59F98D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StatsData", "StatsData", "{B0ADB790-71EB-4595-8480-9DDFCC904D7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatsDataSource", "StatsData\StatsDataSource\StatsDataSource.csproj", "{BEE18F27-0DA0-4578-BEE2-1A730543F83C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StatsData", "StatsData", "{4EC52E02-57BE-4A2B-A8BC-2D573E5C7002}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatsData.Tests", "Tests\StatsData\StatsData.Tests\StatsData.Tests.csproj", "{426A9DBA-5BF0-4506-8C7B-AB748834A0B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -103,10 +111,6 @@ Global
 		{992884B6-0A20-4015-88D3-36D862260B7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{992884B6-0A20-4015-88D3-36D862260B7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{992884B6-0A20-4015-88D3-36D862260B7B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{01879545-D90A-4DAF-8B46-05B4E174458A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{01879545-D90A-4DAF-8B46-05B4E174458A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{01879545-D90A-4DAF-8B46-05B4E174458A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{01879545-D90A-4DAF-8B46-05B4E174458A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B4A49785-F5A5-45DA-8F53-C2CBB36F22A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B4A49785-F5A5-45DA-8F53-C2CBB36F22A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4A49785-F5A5-45DA-8F53-C2CBB36F22A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -115,6 +119,14 @@ Global
 		{24B705CA-A22A-4D89-BAA6-9A9ABA59F98D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24B705CA-A22A-4D89-BAA6-9A9ABA59F98D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24B705CA-A22A-4D89-BAA6-9A9ABA59F98D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEE18F27-0DA0-4578-BEE2-1A730543F83C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEE18F27-0DA0-4578-BEE2-1A730543F83C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEE18F27-0DA0-4578-BEE2-1A730543F83C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEE18F27-0DA0-4578-BEE2-1A730543F83C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{426A9DBA-5BF0-4506-8C7B-AB748834A0B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{426A9DBA-5BF0-4506-8C7B-AB748834A0B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{426A9DBA-5BF0-4506-8C7B-AB748834A0B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{426A9DBA-5BF0-4506-8C7B-AB748834A0B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -136,6 +148,9 @@ Global
 		{992884B6-0A20-4015-88D3-36D862260B7B} = {C915024C-450B-41B2-B4D3-57DF1CAB30B5}
 		{B4A49785-F5A5-45DA-8F53-C2CBB36F22A0} = {7B3E3AFF-E56C-4448-98CE-A6BB4EFD6902}
 		{24B705CA-A22A-4D89-BAA6-9A9ABA59F98D} = {7B3E3AFF-E56C-4448-98CE-A6BB4EFD6902}
+		{BEE18F27-0DA0-4578-BEE2-1A730543F83C} = {B0ADB790-71EB-4595-8480-9DDFCC904D7A}
+		{4EC52E02-57BE-4A2B-A8BC-2D573E5C7002} = {4DB3DAE3-53BD-4594-94F5-4E17977EA180}
+		{426A9DBA-5BF0-4506-8C7B-AB748834A0B5} = {4EC52E02-57BE-4A2B-A8BC-2D573E5C7002}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6ED222D8-1B15-40EB-A156-B8E891343944}
