@@ -12,11 +12,11 @@ namespace StatsData.Tests.Soccer
             //Arrange
             var urls = new List<string>
             {
-                @"https://www.flashscore.pl/mecz/Cb6YxcvO/#statystyki-meczu;0"
+                @"https://www.flashscore.pl/mecz/zDio29o3/#statystyki-meczu;0"
             };
 
             //Act
-            var result = _serviceUnderTest.ScrapMatchesStats(urls);
+            var result = _serviceUnderTest.ScrapMatchesStats(urls, null);
 
 
             //Assert

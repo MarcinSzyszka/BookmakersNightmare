@@ -47,28 +47,26 @@ namespace StatsDataSource.Soccer.Services
 
             var matchesUrls = matchesIds.Select(id => $"{_mainUrl}/mecz/{id}/#statystyki-meczu;0").ToList();
 
+            var divider = 4;
 
-            return _soccerMatchStatsSiteScrapperService.ScrapMatchesStats(matchesUrls);
-            //var bulkParts = matchesUrls.Count / 2;
+            var bulkParts = matchesUrls.Count / divider;
 
-            //var tasksList = new List<Task<IEnumerable<SoccerMatchStatsData>>>(3);
+            var tasksList = new List<Task<IEnumerable<SoccerMatchStatsData>>>(divider  + 1);
 
-            //for (var i = 0; i < 3; i++)
-            //{
-            //    var urlsPart = matchesUrls.Skip(i * bulkParts).Take(bulkParts).ToList();
+            for (var i = 0; i < divider + 1; i++)
+            {
+                var urlsPart = matchesUrls.Skip(i * bulkParts).Take(bulkParts).ToList();
 
-            //    tasksList.Add(Task.Run(() => _soccerMatchStatsSiteScrapperService.ScrapMatchesStats(urlsPart)));
-            //}
+                tasksList.Add(Task.Run(() => _soccerMatchStatsSiteScrapperService.ScrapMatchesStats(urlsPart, afterDate)));
+            }
 
-            //var results = await Task.WhenAll(tasksList.ToArray());
+            var results = await Task.WhenAll(tasksList.ToArray());
 
-            //return results.SelectMany(r => r).ToList();
+            return results.SelectMany(r => r).ToList();
         }
 
         private async Task ClickLoadMoreResultsIfAvailable(ChromeDriver webDriver)
         {
-            //var loadMoreElem = webDriver.FindElementByXPath("//*[@id=\"tournament-page-results-more\"]/tbody/tr/td/a");
-
             var loadMoreElem = GetMoreResultsElement(webDriver);
 
             while (loadMoreElem != null)

@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
-using System.Threading.Tasks;
 using HtmlAgilityPack;
 using Main.Infrastructure.Enums;
+using Main.Infrastructure.Models;
 using OpenQA.Selenium.Chrome;
-using StatsDataSource.Models;
 using StatsDataSource.Soccer.Models;
 
 namespace StatsDataSource.Soccer.Services
 {
     public class SoccerMatchStatsSiteScrapperService : ISoccerMatchStatsSiteScrapperService
     {
-        public IEnumerable<SoccerMatchStatsData> ScrapMatchesStats(IEnumerable<string> matchesStatsUrl)
+        public IEnumerable<SoccerMatchStatsData> ScrapMatchesStats(IEnumerable<string> matchesStatsUrl, DateTime? afterDate)
         {
             using (var webDriver = new ChromeDriver(AppDomain.CurrentDomain.BaseDirectory))
             {
@@ -30,14 +28,19 @@ namespace StatsDataSource.Soccer.Services
                         GuestTeam = htmlDocument.DocumentNode.Descendants().First(n => n.HasClass("tname-away")).Descendants("a").First().InnerText
                     };
 
-                    var matchScoreboard = htmlDocument.DocumentNode.Descendants().First(n => n.Id == "event_detail_current_result").InnerText.Split('-');
+                    if (afterDate.HasValue && matchStats.MatchDate < afterDate)
+                    {
+                        return resultsList;
+                    }
+
+                    var matchScoreboard = htmlDocument.DocumentNode.Descendants().First(n => n.Id == "event_detail_current_result").InnerText.TrimStart().TrimEnd().Split('-');
                     matchStats.MatchResult = (SingleBetResult)matchScoreboard[0].CompareTo(matchScoreboard[1]);
 
                     var statsRows = htmlDocument.DocumentNode.Descendants().First(n => n.Id == "tab-statistics-0-statistic").ChildNodes.ToList();
 
                     foreach (var row in statsRows)
                     {
-                        var statRowModel = new StatsRow
+                        var statRowModel = new SoccerMatchStatsRow
                         {
                             HostsStatsValue = int.Parse(row.FirstChild.FirstChild.InnerText.TrimEnd('%')),
                             StatsName = row.FirstChild.FirstChild.NextSibling.InnerText,
@@ -56,34 +59,21 @@ namespace StatsDataSource.Soccer.Services
 
         private HtmlDocument InitializeDriverAndGetDocument(ChromeDriver webDriver, string matchStatsUrl)
         {
-            var html = GoToStatsUrl(webDriver, matchStatsUrl);
-            var statsTab = GetStatsTab(webDriver);
+            webDriver.Url = matchStatsUrl;
+
+            var doc = new HtmlDocument();
+
+            doc.LoadHtml(webDriver.PageSource);
+            var statsTab = doc.DocumentNode.Descendants().FirstOrDefault(n => n.Id == "tab-statistics-0-statistic");
 
             while (statsTab == null)
             {
-                html = GoToStatsUrl(webDriver, matchStatsUrl);
-                statsTab = GetStatsTab(webDriver);
+                doc.LoadHtml(webDriver.PageSource);
+
+                statsTab = doc.DocumentNode.Descendants().FirstOrDefault(n => n.Id == "tab-statistics-0-statistic");
             }
 
-            var doc = new HtmlDocument();
-            doc.LoadHtml(html);
-
             return doc;
-        }
-
-        private HtmlNode GetStatsTab(ChromeDriver webDriver)
-        {
-            var htmlDocument = new HtmlDocument();
-            htmlDocument.LoadHtml(webDriver.PageSource);
-
-            return htmlDocument.DocumentNode.Descendants().FirstOrDefault(n => n.Id == "tab-statistics-0-statistic");
-        }
-
-        private static string GoToStatsUrl(ChromeDriver webDriver, string matchStatsUrl)
-        {
-            webDriver.Url = matchStatsUrl;
-
-            return webDriver.PageSource;
         }
     }
 }

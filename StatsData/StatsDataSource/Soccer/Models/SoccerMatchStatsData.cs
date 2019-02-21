@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Main.Infrastructure.Enums;
-using StatsDataSource.Models;
+using Main.Infrastructure.Models;
 
 namespace StatsDataSource.Soccer.Models
 {
@@ -15,6 +15,6 @@ namespace StatsDataSource.Soccer.Models
 
         public SingleBetResult MatchResult { get; set; }
 
-        public List<StatsRow> StatsRows { get; set; } = new List<StatsRow>();
+        public List<SoccerMatchStatsRow> StatsRows { get; set; } = new List<SoccerMatchStatsRow>();
     }
 }
