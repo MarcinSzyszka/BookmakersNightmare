@@ -27,7 +27,7 @@ namespace Prediction.LearningData.Tests.Soccer.Stats
             //Arrange
 
             //Act
-            var result = _serviceUnderTest.PrepareLearningDataAndGetResultsFilePath("AS Roma", 3);
+            var result = _serviceUnderTest.PrepareLearningDataAndGetResultsFilePath("Sporting", 3);
 
             //Assert
             Assert.NotNull(result);

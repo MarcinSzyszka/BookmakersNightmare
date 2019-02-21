@@ -23,20 +23,15 @@ namespace Prediction.Training.Soccer.Stats
                 Column = new[]
                     {
                         new TextLoader.Column("Result", DataKind.R4, 0),
-                        new TextLoader.Column("HostsBallPossession", DataKind.R4, 1),
-                        new TextLoader.Column("HostsAttacksOnGoal", DataKind.R4, 2),
-                        new TextLoader.Column("HostsShotsOnGoal", DataKind.R4, 3),
-                        new TextLoader.Column("HostsShotsOutGoal", DataKind.R4, 4),
-                        new TextLoader.Column("HostsCorners", DataKind.R4, 5),
-                        new TextLoader.Column("HostsAccuratePasses", DataKind.R4, 6),
-                        new TextLoader.Column("HostsBlocks", DataKind.R4, 7),
-                        new TextLoader.Column("GuestsBallPossession", DataKind.R4, 8),
-                        new TextLoader.Column("GuestsAttacksOnGoal", DataKind.R4, 9),
-                        new TextLoader.Column("GuestsShotsOnGoal", DataKind.R4, 10),
-                        new TextLoader.Column("GuestsShotsOutGoal", DataKind.R4, 11),
-                        new TextLoader.Column("GuestsCorners", DataKind.R4, 12),
-                        new TextLoader.Column("GuestsAccuratePasses", DataKind.R4, 13),
-                        new TextLoader.Column("GuestsBlocks", DataKind.R4, 14)
+                        new TextLoader.Column("BallPossession", DataKind.R4, 1),
+                        new TextLoader.Column("AttacksOnGoal", DataKind.R4, 2),
+                        new TextLoader.Column("ShotsOnGoal", DataKind.R4, 3),
+                        new TextLoader.Column("ShotsOutGoal", DataKind.R4, 4),
+                        new TextLoader.Column("Corners", DataKind.R4, 5),
+                        new TextLoader.Column("Passes", DataKind.R4, 6),
+                        new TextLoader.Column("AccuratePasses", DataKind.R4, 7),
+                        new TextLoader.Column("Blocks", DataKind.R4, 8),
+                        new TextLoader.Column("Points", DataKind.R4, 9)
                     }
             }
             );
@@ -45,9 +40,8 @@ namespace Prediction.Training.Soccer.Stats
 
             var pipeline = _mlContext.Transforms.CopyColumns(inputColumnName: "Result", outputColumnName: "Label")
                 .Append(_mlContext.Transforms.Concatenate("Features",
-                    "HostsBallPossession", "HostsAttacksOnGoal", "HostsShotsOnGoal", "HostsShotsOutGoal", "HostsCorners", "HostsAccuratePasses", "HostsBlocks",
-                                        "GuestsBallPossession", "GuestsAttacksOnGoal", "GuestsShotsOnGoal", "GuestsShotsOutGoal", "GuestsCorners", "GuestsAccuratePasses", "GuestsBlocks"))
-                .Append(_mlContext.Regression.Trainers.FastTree());
+                    "BallPossession", "AttacksOnGoal", "ShotsOnGoal", "ShotsOutGoal", "Corners", "Passes", "AccuratePasses", "Blocks", "Points"))
+                .Append(_mlContext.Regression.Trainers.FastTreeTweedie());
 
             var model = pipeline.Fit(dataView);
 
@@ -55,21 +49,16 @@ namespace Prediction.Training.Soccer.Stats
 
             var taxiTripSample = new StatsResult
             {
-                HostsBallPossession = 153,
-                HostsAttacksOnGoal = 36,
-                HostsShotsOnGoal = 21,
-                HostsShotsOutGoal = 15,
-                HostsCorners = 26,
-                HostsAccuratePasses = 1259,
-                HostsBlocks = 54,
-                GuestsBallPossession = 147,
-                GuestsAttacksOnGoal = 24,
-                GuestsShotsOnGoal = 19,
-                GuestsShotsOutGoal = 5,
-                GuestsCorners = 11,
-                GuestsAccuratePasses = 1139,
-                GuestsBlocks = 48
-                };
+                BallPossession = 157+50,
+                AttacksOnGoal = 34 + 13,
+                ShotsOnGoal = 14 + 7,
+                ShotsOutGoal = 13+5,
+                Corners = 18+5,
+                Passes = 0,
+                AccuratePasses = 996+292,
+                Blocks = 41+15,
+                Points = 3 + 3
+            };
 
             var prediction = predictionFunction.Predict(taxiTripSample);
 

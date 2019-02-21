@@ -14,7 +14,8 @@ namespace Main.DataManager.Tests.Soccer.Stats
             //Arrange
 
             //Act
-            await _serviceUnderTest.UpdateResultsData("niemcy", "bundesliga");
+            await _serviceUnderTest.UpdateResultsData("portugalia", "primeira-liga");
+            await _serviceUnderTest.UpdateResultsData("hiszpania", "laliga");
 
             //Assert
 

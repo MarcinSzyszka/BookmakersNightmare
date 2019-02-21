@@ -8,45 +8,30 @@ namespace Prediction.Training.Soccer.Stats.Models
         public float Result { get; set; }
 
         [Column("1")]
-        public float HostsBallPossession { get; set; }
+        public float BallPossession { get; set; }
 
         [Column("2")]
-        public float HostsAttacksOnGoal { get; set; }
+        public float AttacksOnGoal { get; set; }
 
         [Column("3")]
-        public float HostsShotsOnGoal { get; set; }
+        public float ShotsOnGoal { get; set; }
 
         [Column("4")]
-        public float HostsShotsOutGoal { get; set; }
+        public float ShotsOutGoal { get; set; }
 
         [Column("5")]
-        public float HostsCorners { get; set; }
+        public float Corners { get; set; }
 
         [Column("6")]
-        public float HostsAccuratePasses { get; set; }
+        public float Passes { get; set; }
 
         [Column("7")]
-        public float HostsBlocks { get; set; }
+        public float AccuratePasses { get; set; }
 
         [Column("8")]
-        public float GuestsBallPossession { get; set; }
+        public float Blocks { get; set; }
 
         [Column("9")]
-        public float GuestsAttacksOnGoal { get; set; }
-
-        [Column("10")]
-        public float GuestsShotsOnGoal { get; set; }
-
-        [Column("11")]
-        public float GuestsShotsOutGoal { get; set; }
-
-        [Column("12")]
-        public float GuestsCorners { get; set; }
-
-        [Column("13")]
-        public float GuestsAccuratePasses { get; set; }
-
-        [Column("14")]
-        public float GuestsBlocks { get; set; }
+        public float Points { get; set; }
     }
 }

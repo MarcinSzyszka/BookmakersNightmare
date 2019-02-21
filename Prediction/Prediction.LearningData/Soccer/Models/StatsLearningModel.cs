@@ -2,38 +2,24 @@
 {
     internal class StatsLearningModel
     {
-        public float Result { get; set; }
-        
-        public float HostsBallPossession { get; set; }
-           
-        public float HostsAttacksOnGoal { get; set; }
-            
-        public float HostsShotsOnGoal { get; set; }
-              
-        public float HostsShotsOutGoal { get; set; }
-             
-        public float HostsCorners { get; set; }
-            
-        public float HostsAccuratePasses { get; set; }
-
-        public float HostsBlocks { get; set; }
-
-        public float GuestsBallPossession { get; set; }
-            
-        public float GuestsAttacksOnGoal { get; set; }
-            
-        public float GuestsShotsOnGoal { get; set; }
-            
-        public float GuestsShotsOutGoal { get; set; }
-           
-        public float GuestsCorners { get; set; }
-       
-        public float GuestsAccuratePasses { get; set; }
+        public int Result { get; set; }
           
-        public float GuestsBlocks { get; set; }
+        public int BallPossession { get; set; }
+              
+        public int AttacksOnGoal { get; set; }
+            
+        public int ShotsOnGoal { get; set; }
+            
+        public int ShotsOutGoal { get; set; }
+            
+        public int Corners { get; set; }
 
-        //public int HostsResultPoints { get; set; }
+        public int Passes { get; set; }
 
-        //public int GuestsResultPoints { get; set; }
+        public int AccuratePasses { get; set; }
+            
+        public int Blocks { get; set; }
+            
+        public int ResultPoints { get; set; }
     }
 }
