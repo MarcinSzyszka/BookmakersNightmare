@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HtmlAgilityPack;
 using Main.Infrastructure.Enums;
-using Main.Infrastructure.Models;
+using Main.Infrastructure.Models.Soccer;
 using OpenQA.Selenium.Chrome;
 using StatsDataSource.Soccer.Models;
 

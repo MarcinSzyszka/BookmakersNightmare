@@ -1,4 +1,4 @@
-﻿namespace Main.Infrastructure.Models
+﻿namespace Main.Infrastructure.Models.Soccer
 {
     public class SoccerMatchStatsRow
     {

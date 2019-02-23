@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Main.Infrastructure.Enums;
-using Main.Infrastructure.Models;
+using Main.Infrastructure.Models.Soccer;
 
 namespace StatsDataSource.Soccer.Models
 {

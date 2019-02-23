@@ -2,7 +2,7 @@
 
 namespace Prediction.Training.Soccer.Models
 {
-    internal class StatsResult
+    public class StatsResult
     {
         [Column("0")]
         public float Result { get; set; }

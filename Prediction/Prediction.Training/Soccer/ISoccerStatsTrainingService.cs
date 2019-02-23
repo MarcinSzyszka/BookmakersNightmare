@@ -1,7 +1,9 @@
-﻿namespace Prediction.Training.Soccer
+﻿using Prediction.Training.Soccer.Models;
+
+namespace Prediction.Training.Soccer
 {
     public interface ISoccerStatsTrainingService
     {
-        void Train(string trainingDataPath);
+        TrainingResult Train(string trainingDataPath);
     }
 }

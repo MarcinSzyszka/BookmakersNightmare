@@ -12,6 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Main.Infrastructure\Main.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Repository\DataRepository\DataRepository.csproj" />
+    <ProjectReference Include="..\Prediction.Infrastructure\Prediction.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

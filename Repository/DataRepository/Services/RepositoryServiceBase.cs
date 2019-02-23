@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
+using System.Linq.Expressions;
 using DataRepository.Models;
 using SQLite;
 
@@ -42,6 +44,14 @@ namespace DataRepository.Services
             using (var db = new SQLiteConnection(DbPath))
             {
                 return db.Table<TEntity>().ToList();
+            }
+        }
+
+        public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> whereExpression)
+        {
+            using (var db = new SQLiteConnection(DbPath))
+            {
+                return db.Table<TEntity>().Where(whereExpression).ToList();
             }
         }
 

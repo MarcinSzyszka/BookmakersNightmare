@@ -11,7 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Soccer\" />
+    <ProjectReference Include="..\..\Repository\DataRepository\DataRepository.csproj" />
+    <ProjectReference Include="..\Prediction.Infrastructure\Prediction.Infrastructure.csproj" />
+    <ProjectReference Include="..\Prediction.LearningData\Prediction.LearningData.csproj" />
+    <ProjectReference Include="..\Prediction.Training\Prediction.Training.csproj" />
   </ItemGroup>
 
 </Project>
