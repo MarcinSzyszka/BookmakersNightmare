@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Main.Infrastructure\Main.Infrastructure.csproj" />
-    <ProjectReference Include="..\OddsData\OddsData.Source\OddsData.Source.csproj" />
     <ProjectReference Include="..\Repository\DataRepository\DataRepository.csproj" />
     <ProjectReference Include="..\StatsData\StatsDataSource\StatsDataSource.csproj" />
   </ItemGroup>

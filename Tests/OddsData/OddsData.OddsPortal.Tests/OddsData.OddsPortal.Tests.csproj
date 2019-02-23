@@ -15,11 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\OddsData\Infrastructure\OddsData.Infrastructure\OddsData.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\..\OddsData\Sources\OddsData.OddsPortal\OddsData.OddsPortal.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="phantomjs.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

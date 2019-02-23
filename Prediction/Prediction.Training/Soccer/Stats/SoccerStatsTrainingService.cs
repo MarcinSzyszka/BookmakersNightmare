@@ -49,15 +49,15 @@ namespace Prediction.Training.Soccer.Stats
 
             var taxiTripSample = new StatsResult
             {
-                BallPossession = 157+50,
-                AttacksOnGoal = 34 + 13,
-                ShotsOnGoal = 14 + 7,
-                ShotsOutGoal = 13+5,
-                Corners = 18+5,
+                BallPossession = 138+43 - 42,
+                AttacksOnGoal = 26 + 12-14,
+                ShotsOnGoal = 10 + 6-5,
+                ShotsOutGoal = 14+3-7,
+                Corners = 8+6-3,
                 Passes = 0,
-                AccuratePasses = 996+292,
-                Blocks = 41+15,
-                Points = 3 + 3
+                AccuratePasses = 900+290-220,
+                Blocks = 20+15-23,
+                Points = 5 + 3 -1
             };
 
             var prediction = predictionFunction.Predict(taxiTripSample);
