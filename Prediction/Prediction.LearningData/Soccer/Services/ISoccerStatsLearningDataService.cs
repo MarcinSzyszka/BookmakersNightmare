@@ -1,4 +1,4 @@
-﻿namespace Prediction.LearningData.Soccer.Services.Stats
+﻿namespace Prediction.LearningData.Soccer.Services
 {
     public interface ISoccerStatsLearningDataService
     {

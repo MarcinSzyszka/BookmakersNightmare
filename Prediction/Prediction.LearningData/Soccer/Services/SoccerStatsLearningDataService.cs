@@ -4,14 +4,14 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using CsvHelper;
-using DataRepository.Models.Soccer.Stats;
-using DataRepository.Services.Soccer.Stats;
+using DataRepository.Models.Soccer;
+using DataRepository.Services.Soccer;
 using Main.Infrastructure.Enums;
 using Main.Infrastructure.Models;
 using Newtonsoft.Json;
 using Prediction.LearningData.Soccer.Models;
 
-namespace Prediction.LearningData.Soccer.Services.Stats
+namespace Prediction.LearningData.Soccer.Services
 {
     public class SoccerStatsLearningDataService : ISoccerStatsLearningDataService
     {

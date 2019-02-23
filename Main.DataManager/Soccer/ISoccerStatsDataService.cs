@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Main.DataManager.Soccer.Stats
+namespace Main.DataManager.Soccer
 {
     public interface ISoccerStatsDataService
     {

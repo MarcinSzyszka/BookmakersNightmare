@@ -5,7 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Soccer\Stats\" />
+    <Compile Remove="Soccer\Stats\**" />
+    <EmbeddedResource Remove="Soccer\Stats\**" />
+    <None Remove="Soccer\Stats\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Soccer\" />
   </ItemGroup>
 
 </Project>

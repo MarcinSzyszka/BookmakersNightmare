@@ -1,10 +1,10 @@
 ﻿using System.IO;
 using Autofac;
-using Prediction.LearningData.Soccer.Services.Stats;
+using Prediction.LearningData.Soccer.Services;
 using Prediction.LearningData.Tests.Fixtures;
 using Xunit;
 
-namespace Prediction.LearningData.Tests.Soccer.Stats
+namespace Prediction.LearningData.Tests.Soccer
 {
     public class SoccerStatsLearningDataServiceTests : IClassFixture<MainFixture>
     {

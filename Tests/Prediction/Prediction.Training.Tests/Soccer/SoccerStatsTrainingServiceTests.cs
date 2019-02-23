@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
-using Prediction.Training.Soccer.Stats;
+using Prediction.Training.Soccer;
 using Xunit;
 
-namespace Prediction.Training.Tests.Soccer.Odds
+namespace Prediction.Training.Tests.Soccer
 {
     public class SoccerStatsTrainingServiceTests
     {

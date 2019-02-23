@@ -1,6 +1,6 @@
 ﻿using Main.Infrastructure.Enums;
 
-namespace DataRepository.Models.Soccer.Stats
+namespace DataRepository.Models.Soccer
 {
     public class SoccerMatchStatsEntity : BaseEntity
     {

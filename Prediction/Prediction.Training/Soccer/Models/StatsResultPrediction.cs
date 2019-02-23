@@ -1,6 +1,6 @@
 ﻿using Microsoft.ML.Data;
 
-namespace Prediction.Training.Soccer.Stats.Models
+namespace Prediction.Training.Soccer.Models
 {
     internal class StatsResultPrediction
     {

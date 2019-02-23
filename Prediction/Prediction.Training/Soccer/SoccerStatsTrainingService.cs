@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.ML;
 using Microsoft.ML.Data;
-using Prediction.Training.Soccer.Stats.Models;
+using Prediction.Training.Soccer.Models;
 
-namespace Prediction.Training.Soccer.Stats
+namespace Prediction.Training.Soccer
 {
     public class SoccerStatsTrainingService : ISoccerStatsTrainingService
     {

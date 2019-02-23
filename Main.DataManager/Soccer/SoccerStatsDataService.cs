@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using DataRepository.Models.Soccer.Stats;
-using DataRepository.Services.Soccer.Stats;
+using DataRepository.Models.Soccer;
+using DataRepository.Services.Soccer;
 using Newtonsoft.Json;
 using StatsDataSource.Soccer.Services;
 
-namespace Main.DataManager.Soccer.Stats
+namespace Main.DataManager.Soccer
 {
     public class SoccerStatsDataService : ISoccerStatsDataService
     {

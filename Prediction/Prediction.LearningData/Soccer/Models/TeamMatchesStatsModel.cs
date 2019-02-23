@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using DataRepository.Models.Soccer.Stats;
+using DataRepository.Models.Soccer;
 
 namespace Prediction.LearningData.Soccer.Models
 {

@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using Autofac;
-using Main.DataManager.Soccer.Stats;
+using Main.DataManager.Soccer;
 using Main.DataManager.Tests.Fixtures;
 using Xunit;
 
-namespace Main.DataManager.Tests.Soccer.Stats
+namespace Main.DataManager.Tests.Soccer
 {
     public class SoccerStatsDataServiceTests : IClassFixture<BootstrappedFixture>
     {
