@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using OpenQA.Selenium;
@@ -42,6 +43,13 @@ namespace StatsDataSource.Soccer.Services
 
             foreach (var row in resultsRows)
             {
+                var date = GetMatchDate(row);
+
+                if (afterDate.HasValue && afterDate.Value > date)
+                {
+                    continue;
+                }
+
                 matchesIds.Add(row.Id.Replace("g_1_", string.Empty));
             }
 
@@ -51,7 +59,7 @@ namespace StatsDataSource.Soccer.Services
 
             var bulkParts = matchesUrls.Count / divider;
 
-            var tasksList = new List<Task<IEnumerable<SoccerMatchStatsData>>>(divider  + 1);
+            var tasksList = new List<Task<IEnumerable<SoccerMatchStatsData>>>(divider + 1);
 
             for (var i = 0; i < divider + 1; i++)
             {
@@ -63,6 +71,24 @@ namespace StatsDataSource.Soccer.Services
             var results = await Task.WhenAll(tasksList.ToArray());
 
             return results.SelectMany(r => r).ToList();
+        }
+
+        private DateTime GetMatchDate(HtmlNode row)
+        {
+            var timeCell = row.ChildNodes.First(n => n.HasClass("time"));
+
+            var regex = new Regex(@"^\d{1,2}\.\d{1,2}\.");
+
+            var matchResult = regex.Match(timeCell.InnerText.TrimStart().TrimEnd());
+
+            var date = DateTime.MinValue;
+
+            if (matchResult.Success)
+            {
+                date = DateTime.Parse(matchResult.Value + DateTime.Now.Year);
+            }
+
+            return date;
         }
 
         private async Task ClickLoadMoreResultsIfAvailable(ChromeDriver webDriver)

@@ -14,18 +14,34 @@ namespace Prediction.Predicting.Tests.Soccer
             //Arrange
             var teamNamesToPredict = new List<string>
             {
-                "Villarreal",
-                "Sporting",
-                "Frankfurt",
-                "Szachtar"
+                "AC Milan",
+                "Empoli"
             };
 
             //Act
-            var result = _serviceUnderTest.PredictResultsDependsOnAllResults(teamNamesToPredict, 3);
+            var result = _serviceUnderTest.PredictResultsDependsOnAllResults(teamNamesToPredict, 2);
 
             //Assert
             Assert.NotNull(result);
-            Assert.Equal(4, result.Count);
+            Assert.Equal(2, result.Count);
+        }
+
+        [Fact]
+        public void PredictResultsDependsOnTeamResults_ShouldReturnPredictionResults()
+        {
+            //Arrange
+            var teamNamesToPredict = new List<string>
+            {
+                "Wisła Kraków",
+                "Śląsk Wrocław"
+            };
+
+            //Act
+            var result = _serviceUnderTest.PredictResultsDependsOnTeamResults(teamNamesToPredict, 3);
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.Equal(2, result.Count);
         }
 
         #region CONFIGURATION
